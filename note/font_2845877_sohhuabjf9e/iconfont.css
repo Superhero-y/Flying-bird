@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2845877 */
+  src: url('iconfont.woff2?t=1633228923083') format('woff2'),
+       url('iconfont.woff?t=1633228923083') format('woff'),
+       url('iconfont.ttf?t=1633228923083') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 40px;
+    color: lightblue;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tianxie:before {
+  content: "\ec88";
+}
+

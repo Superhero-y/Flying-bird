@@ -1,0 +1,102 @@
+.root{
+    font-family: BlinkMacSystemFont,Hiragino Sans GB,Microsoft YaHei,微软雅黑,sans-serif;
+}
+body{
+    background-image: url("sp.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#app{
+    width: 800px;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 20px auto;
+    border: 2px solid rgba(0,0,0,.02);
+    background: #fff;
+}
+#note{
+    position: relative;
+}
+.clear{
+    display: block;
+    clear: both;
+}
+textarea{
+    display: inline-block;
+    box-sizing: border-box;
+    padding: .5em .6em;
+    border: 0;
+    border-radius: 5px;
+    background: hsla(0,0%,86%,.25);
+    color: #43454a;
+    resize: none;
+    width: 100%;
+    margin-bottom: 10px;
+    outline: none;
+    font-size: 17px;
+}
+#toolbar-wrapper{
+    width: 100%;
+}
+#toolbar{
+    display: flex;
+    margin: 0 auto;
+    width: 134px;
+    height: 60px;
+    line-height: 60px;
+    background: hsla(0,0%,100%,.9);
+    text-align: center;
+    border-radius: 100000rem;
+}
+#toolbar span:first-child{
+    margin-left: 20px;
+}
+#toolbar span:last-child{
+    margin-right: 20px;
+}
+#toolbar span{
+    width: 30px;
+    color: #222222;
+    height: 30px;
+    margin: 13px;
+    cursor: pointer;
+}
+#key-area{
+    padding-top: 10px;
+    text-align: center;
+}
+#key-area input{
+    display: inline-block;
+    box-sizing: border-box;
+    padding: .5em .6em;
+    border: 0;
+    border-radius: 5px;
+    background: hsla(0,0%,98%,.9);
+    color: #43454a;
+    resize: none;
+    width: 100px;
+    margin-bottom: 10px;
+    outline: none;
+    font-size: 17px;
+    cursor: pointer;
+}
+#key-area button{
+    padding: .22rem 1.2rem;
+    border-radius: 100rem;
+    display: inline-block;
+    opacity: 0.8;
+    font-size: .875rem;
+    line-height: 1.5;
+    font-weight: 500;
+    color: #fff !important;
+    border: .0625rem solid hsla(0,0%,98%,.7) !important;
+    background: #07f;
+    outline: none;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+
+

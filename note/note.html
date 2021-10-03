@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="../note/bz.ico">
+    <title>note</title>
+    <link rel="stylesheet" href="font_2845877_sohhuabjf9e/iconfont.css">
+    <link rel="stylesheet" href="note.css">
+    <link rel="stylesheet" href="font_2847767_3xmwc0i1irw/iconfont.css">
+</head>
+<body>
+    <div id="app">
+        <div id="note">
+            <textarea name="content" id="content" rows="30" placeholder="Begin your story."></textarea>
+            <div id="toolbar-wrapper">
+                <div id="toolbar">
+                   <span class="iconfont icon-tianxie" onclick="encrypt()"></span>
+                   <span class="iconfont icon-share" onclick="share()"></span>
+                </div>
+            </div>
+            <div id="key-area" style="display: none">
+                <input id="ms" type="text" placeholder="密匙">
+                <button onclick="change()">修改</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="note.js"></script>
+</html>
