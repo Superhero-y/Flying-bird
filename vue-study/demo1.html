@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="demo1.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.0-beta.7/vue.global.js"></script>
+</head>
+<body>
+    <div id="computed-basics">
+        <p>Has published books:</p>
+        <span>{{ publishedBooksMessage() }}</span>
+    </div>
+    <div id="demo3" v-on:click="say()">
+        click me !
+    </div>
+    <div id="demo2" :style="{ syb }">
+        Superhero fighting maths competition!
+    </div>
+    <div id="demo4">
+        <input type="text" v-model.number.lazy="msg">
+        <p>{{msg}}</p>
+    </div>
+
+    <div
+            id="demo1"
+            class="static"
+            :class="{ active: isActive, 'text-center': hasError }"
+    >What it is ? Can you hard-working ! </div>
+</body>
+<script src="demo1.js"></script>
+</html>
