@@ -219,7 +219,7 @@ public class GameApp extends JPanel{
 		try {
 			ServerSocket server = null;
 			try {
-				server = new ServerSocket(4700);
+				server = new ServerSocket(4800);
 			}catch(Exception e) {
 				System.out.println("can not listen to:" +e);
 			}
