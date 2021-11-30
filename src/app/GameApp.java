@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import main.Bird;
+import main.Bird2;
 import main.Column;
 import main.Ground;
 import main.booster;
@@ -40,16 +43,19 @@ public class GameApp extends JPanel{
 	//柱子
 	Column column1, column2;
 	//小鸟
-	Bird bird;
+	Bird bird1;
+	Bird2 bird2;
 	//加速
 	booster bos;
 	
 	//游戏分数
-	int score;
+	int score1;
+	int score2;
 	//游戏状态
 	int state;
 	//flag 
 	int flag = 1;
+	int flag2 = 1;
 	
 	//状态常量
 	public static final int START = 0;	//开始
@@ -70,10 +76,11 @@ public class GameApp extends JPanel{
 		column1 = new Column(1);
 		column2 = new Column(2);
 		bos = new booster();
-		bird = new Bird();
-		
+		bird1 = new Bird();
+		bird2 = new Bird2();		
 		//初始化分数
-		score = 0;
+		score1 = 0;
+		score2 = 0;
 		//初始化状态
 		state = START;
 		
@@ -93,16 +100,29 @@ public class GameApp extends JPanel{
 		
 		//绘制小鸟
 		Graphics2D g2 = (Graphics2D) g;
-		g2.rotate(-bird.alpha, bird.x, bird.y);
-		g2.drawImage(bird.image, bird.x-bird.width/2, bird.y-bird.height/2, null);
-		g2.rotate(bird.alpha, bird.x, bird.y);
+		g2.rotate(-bird1.alpha, bird1.x, bird1.y);
+		g2.drawImage(bird1.image, bird1.x-bird1.width/2, bird1.y-bird1.height/2, null);
+		g2.rotate(bird1.alpha, bird1.x, bird1.y);
+		
+		Graphics2D g3 = (Graphics2D) g;
+		g3.rotate(-bird2.alpha, bird2.x, bird2.y);
+		g3.drawImage(bird2.image, bird2.x-bird2.width/2, bird2.y-bird2.height/2, null);
+		g3.rotate(bird2.alpha, bird2.x, bird2.y);
 		
 		//绘制分数
-		Font f = new Font(Font.SANS_SERIF, Font.BOLD, 40);
-		g.setFont(f);
-		g.drawString(""+score, 40,50);
-		g.setColor(Color.white);
-		g.drawString(""+score,40-3,60-3);
+		Font f1 = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+		g.setFont(f1);
+		g.setColor(Color.blue);
+		g.drawString(""+score1, 40,50);
+		
+		//g.drawString(""+score,40-3,60-3);
+		
+		Font f2 = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+		g.setFont(f2);
+		g.setColor(Color.red);
+		g.drawString(""+score2, 360,50);
+		
+		//g.drawString(""+score,380+3,60+3);
 		
 		
 		//绘制开始和结束界面
@@ -115,6 +135,14 @@ public class GameApp extends JPanel{
 				break;
 		}
 	}
+	//监听键盘类
+	public class MyKeyListener extends KeyAdapter{
+		public void keyPressed(KeyEvent e) {
+			char ch = e.getKeyChar();
+			System.out.println("你按了"+ch);
+		}
+	}
+		
 	
 	//开始游戏
 	public void action()throws Exception{
@@ -130,15 +158,19 @@ public class GameApp extends JPanel{
 						break;
 					case RUNNING:
 					//在运行状态。按下鼠标向上飞行
-						bird.flappy();
+						 
+						//bird1.flappy();
+						//bird2.flappy();
 						break;
 					case GAME_OVER:
 					//在结束状态，按下鼠标重置数据，再次转为开始状态
 						column1= new Column(1);
 						column2 = new Column(2);
 						bos = new booster();
-						bird = new Bird();
-						score = 0;
+						bird1 = new Bird();
+						bird2 = new Bird2();
+						score1 = 0;
+						score2 = 0;
 						state = START;
 						break;
 					}
@@ -157,7 +189,8 @@ public class GameApp extends JPanel{
 			switch(state) {
 			case START:
 				//小鸟做出飞行动作
-				bird.fly();
+				bird1.fly();
+				bird2.fly();
 				//地面向左移动
 				ground.step();
 				break;
@@ -173,29 +206,55 @@ public class GameApp extends JPanel{
 					bos.step();
 				}
 				//小鸟飞行动作
-				bird.fly();
+				bird1.fly();
+				bird2.fly();
 				//小鸟上下移动一步
-				bird.step();
+				bird1.step();
+				bird2.step();
 				//计算分数
-				if(bird.x == column1.x || bird.x == column2.x ) {
-					score++;
+				if(bird1.x == column1.x || bird1.x == column2.x ) {
+					score1++;
+				}
+				if(bird2.x == column1.x || bird2.x == column2.x ) {
+					score2++;
 				}
 				//检测是否发生碰撞
-				if(bird.hit(ground) || bird.hit(column1)|| bird.hit(column2)) {
-					if(bos.buff) {
+				if(bird1.hit(ground) || bird1.hit(column1)|| bird1.hit(column2)) {
+					if(bird1.buff) {
+						System.out.println("yes!");
+					}else {
+						state = GAME_OVER;
+					}
+				}
+				if(bird2.hit(ground) || bird2.hit(column1)|| bird2.hit(column2)) {
+					if(bird2.buff) {
 						System.out.println("yes!");
 					}else {
 						state = GAME_OVER;
 					}
 				}
 				//检查是否吃到BUFF
-				if(bird.getbuff(bos)) {
+				if(bird1.getbuff(bos)) {
 					bos.x = -56;
+					bird1.buff = true;
 					bos.buff = true;
 					new Timer().schedule(new TimerTask() {
 						@Override
 						public void run() {
 								bos.buff = false;
+								bird1.buff = false;
+						}
+					}, 10000);
+				}
+				if(bird2.getbuff(bos)) {
+					bos.x = -56;
+					bird2.buff = true;
+					bos.buff = true;
+					new Timer().schedule(new TimerTask() {
+						@Override
+						public void run() {
+								bos.buff = false;
+								bird2.buff = false;
 						}
 					}, 10000);
 				}
@@ -216,7 +275,7 @@ public class GameApp extends JPanel{
 	
 	
 	public static void main(String[] args) throws Exception {
-		try {
+		/*try {
 			ServerSocket server = null;
 			try {
 				server = new ServerSocket(4800);
@@ -250,6 +309,7 @@ public class GameApp extends JPanel{
 		}catch(Exception e) {
 			System.out.println("Error:"+e);
 		}
+		*/
 		
 		JFrame f = new JFrame();
 		GameApp game = new GameApp();
@@ -258,6 +318,22 @@ public class GameApp extends JPanel{
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		
+		game.addKeyListener(new KeyAdapter(){  
+            public void keyPressed(KeyEvent e){  
+                char charA=e.getKeyChar();  
+                System.out.println("你按了《"+charA+"》键");
+                if(charA == 'a')
+                {
+                	game.bird1.flappy();
+                }
+                else if(charA == 'k')
+                {
+                	game.bird2.flappy();
+                }
+                }
+            }); 
+		game.requestFocusInWindow();
 		game.action();
 	}
 
