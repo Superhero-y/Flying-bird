@@ -43,8 +43,8 @@ public class GameApp extends JPanel{
 	//柱子
 	Column column1, column2;
 	//小鸟
-	Bird bird1;
-	Bird2 bird2;
+	public Bird bird1;
+	public Bird2 bird2;
 	//加速
 	booster bos;
 	
@@ -283,30 +283,5 @@ public class GameApp extends JPanel{
 	public static void main(String[] args) throws Exception {
 		
 		
-		JFrame f = new JFrame();
-		GameApp game = new GameApp();
-		f.add(game);
-		f.setSize(440,600);
-		f.setLocationRelativeTo(null);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		
-		game.addKeyListener(new KeyAdapter(){  
-            public void keyPressed(KeyEvent e){  
-                char charA= e.getKeyChar();  
-                System.out.println("你按了《"+charA+"》键");
-                if(charA == 'a')
-                {
-                	game.bird1.flappy();
-                }
-                else if(charA == 'k')
-                {
-                	game.bird2.flappy();
-                }
-                }
-            }); 
-		game.requestFocusInWindow();
-		game.action();
 	}
-
 }
