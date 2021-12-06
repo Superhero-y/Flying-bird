@@ -1,59 +1,63 @@
-//package Tcp;
-//
-//import main.Bird;
-//import main.Bird2;
-//import main.Column;
-//import main.Ground;
-//import main.booster;
-//import app.GameApp;
-//
-//import java.io.*;
-//import java.net.*;
-//import java.util.Scanner;
-//import java.util.StringTokenizer;
-//
-//public class GameServer {
-//    public static void main(String[] args) throws Exception {
-//        try {
-//            ServerSocket server = null;
-//            Socket socket = null;
-//
-//            try {
-//                server = new ServerSocket(4700);
-//                try {
-//                    socket = server.accept();
-////                    BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-////                    PrintWriter os = new PrintWriter(socket.getOutputStream());
-//                    while (true) {
-//                        BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//                        PrintWriter os = new PrintWriter(socket.getOutputStream());
-////                        Scanner scanner = new Scanner(System.in);
-//                        GameApp game = new GameApp();
-//                        
-////                        String s = is.readLine();
-////                        String[] s1 = s.split(" ");
-////                        int a = Integer.parseInt(s1[0]);
-////                        int b = Integer.parseInt(s1[1]);
-//////
-////                        frame.myPaint.p2.setX(a);
-////                        frame.myPaint.p2.setY(b);
-//                     
-//                        while (true) {
-//                            os.println(game.c1);
-//                            os.flush();
-//                            String s = is.readLine();
-//                            String[] s1 = s.split(" ");
-//                            
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    System.out.println("Error." + e);
-//                }
-//            } catch (IOException e) {
-//                System.out.println("Error." + e);
-//            }
-//        } finally {
-//            System.out.println("Byebye");
-//        }
-//    }
-//}
+package Tcp;
+
+import main.Bird;
+import main.Bird2;
+import main.Column;
+import main.Ground;
+import main.booster;
+import app.GameApp;
+
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.net.Socket;
+
+public class GameServer {
+	private ServerSocket server;
+	private Socket client;
+	
+	void getServer() {
+		try {
+			server = new ServerSocket(1101);
+			System.out.println("服务器建立成功！正在连接……");
+			client = server.accept();
+			System.out.println("客户端连接成功！");
+			getClientMessage();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void getClientMessage() {
+		try {
+			while(true) {
+				InputStream is = client.getInputStream();
+				byte[] b = new byte[1024];
+				int len = is.read(b);
+				String data = new String(b,0,len);
+				System.out.println("客户端发来消息: "+ data);
+				
+				OutputStream put = client.getOutputStream();
+				String putText = "收到了！";
+				put.write(putText.getBytes());
+			}
+		}catch(Exception e) {
+			
+		}
+		
+		try {
+			if(server != null) {
+				server.close();
+			}
+		}catch(Exception e) {
+			
+		}
+	}
+	
+    public static void main(String[] args) throws Exception {
+    	GameServer server =  new GameServer();
+    	server.getServer();
+       
+    }
+}
