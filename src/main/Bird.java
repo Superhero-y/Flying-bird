@@ -39,7 +39,7 @@ public class Bird {
 	//初始化小鸟
 	public Bird() throws Exception{
 		//构造函数 初始化
-		image = ImageIO.read(new File("D:\\Java\\Eclipse\\items\\Img\\1.png"));
+		image = ImageIO.read(new File("../Img/1.png"));
 		width = image.getWidth();
 		height = image.getHeight();
 		x = 132;
@@ -58,7 +58,7 @@ public class Bird {
 		//初始化动画帧参数
 		images = new BufferedImage[8];
 		for(int i = 0; i <= 6; i++) {
-			File fo = new File("D:\\Java\\Eclipse\\items\\Img\\" + (i+1) +".png");
+			File fo = new File("../Img/" + (i+1) +".png");
 			images[i] = ImageIO.read(fo);
 		}
 		index = 0;
@@ -88,6 +88,7 @@ public class Bird {
 		//重叠速度
 		speed = v0-2;
 	}
+	
 	
 	//检查小鸟是否碰撞到地面
 	public boolean hit(Ground ground) {
@@ -119,7 +120,6 @@ public class Bird {
 		}
 		return false;
 	}
-	
 	
 	
 	

@@ -57,6 +57,10 @@ public class GameApp extends JPanel{
 	int flag = 1;
 	int flag2 = 1;
 	
+	//char
+	public char c1;
+	public char c2;
+	
 	//状态常量
 	public static final int START = 0;	//开始
 	public static final int RUNNING = 1;	//运行
@@ -65,11 +69,12 @@ public class GameApp extends JPanel{
 	//初始化游戏
 	public GameApp() throws Exception{
 		//初始化
-		File fo = new File("D:\\Java\\Eclipse\\items\\Img\\bg.png");
-		background = ImageIO.read(fo);
-		File fk = new File("D:\\Java\\Eclipse\\items\\Img\\start.png");
-		startImage = ImageIO.read(fk);
-		gameoverImage = ImageIO.read(new File("D:\\Java\\Eclipse\\items\\Img\\gameover.png"));
+		//File fo = new File("./Img/bg.png");//D:\\Java\\Eclipse\\items\\Img\\
+		//background = ImageIO.read(fo);
+		background = ImageIO.read(new File("../Img/bg.png"));
+		//File fk = new File("D:\\Java\\Eclipse\\items\\Img\\start.png");
+		startImage = ImageIO.read(new File("../Img/start.png"));
+		gameoverImage = ImageIO.read(new File("../Img/gameover.png"));
 		
 		//初始化地面、柱子、小鸟
 		ground = new Ground();
@@ -140,6 +145,7 @@ public class GameApp extends JPanel{
 		public void keyPressed(KeyEvent e) {
 			char ch = e.getKeyChar();
 			System.out.println("你按了"+ch);
+			c1 = ch;
 		}
 	}
 		
@@ -275,41 +281,7 @@ public class GameApp extends JPanel{
 	
 	
 	public static void main(String[] args) throws Exception {
-		/*try {
-			ServerSocket server = null;
-			try {
-				server = new ServerSocket(4800);
-			}catch(Exception e) {
-				System.out.println("can not listen to:" +e);
-			}
-			Socket socket = null;
-			try {
-				socket = server.accept();
-			}catch(Exception e) {
-				System.out.println("Error."+e);
-			}
-			String line;
-			BufferedReader is = new BufferedReader(
-					new InputStreamReader(socket.getInputStream()));
-			PrintWriter os = new PrintWriter(socket.getOutputStream());
-			BufferedReader sin = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Client:"+is.readLine());
-			line = sin.readLine();
-			while(!line.equals("bye")) {
-				os.println(line);
-				os.flush();
-				System.out.println("Server:"+line);
-				System.out.println("Client:"+is.readLine());
-				line = sin.readLine();
-			}
-			os.close();
-			is.close();
-			socket.close();
-			server.close();
-		}catch(Exception e) {
-			System.out.println("Error:"+e);
-		}
-		*/
+		
 		
 		JFrame f = new JFrame();
 		GameApp game = new GameApp();
@@ -321,7 +293,7 @@ public class GameApp extends JPanel{
 		
 		game.addKeyListener(new KeyAdapter(){  
             public void keyPressed(KeyEvent e){  
-                char charA=e.getKeyChar();  
+                char charA= e.getKeyChar();  
                 System.out.println("你按了《"+charA+"》键");
                 if(charA == 'a')
                 {

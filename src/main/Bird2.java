@@ -39,7 +39,7 @@ public class Bird2 {
 	//初始化小鸟
 	public Bird2() throws Exception{
 		//构造函数 初始化
-		image = ImageIO.read(new File("D:\\Java\\Eclipse\\items\\Img\\a1.png"));
+		image = ImageIO.read(new File("../Img/a1.png"));
 		width = image.getWidth();
 		height = image.getHeight();
 		x = 132;
@@ -58,7 +58,7 @@ public class Bird2 {
 		//初始化动画帧参数
 		images = new BufferedImage[8];
 		for(int i = 0; i <= 6; i++) {
-			File fo = new File("D:\\Java\\Eclipse\\items\\Img\\a" + (i+1) +".png");
+			File fo = new File("../Img/a" + (i+1) +".png");
 			images[i] = ImageIO.read(fo);
 		}
 		index = 0;
