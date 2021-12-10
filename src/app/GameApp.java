@@ -41,24 +41,25 @@ public class GameApp extends JPanel{
 	//地面
 	Ground ground;
 	//柱子
-	Column column1, column2;
+	public Column column1;
+	public Column column2;
 	//小鸟
 	public Bird bird1;
 	public Bird2 bird2;
 	//加速
-	booster bos;
+	public booster bos;
 	
 	//游戏分数
 	int score1;
 	int score2;
 	//游戏状态
-	int state;
+	public int state;
 	//flag 
 	int flag = 1;
 	int flag2 = 1;
 	
 	//char
-	public char c1;
+	public char c1 = '#';
 	public char c2;
 	
 	//状态常量
@@ -141,147 +142,212 @@ public class GameApp extends JPanel{
 		}
 	}
 	//监听键盘类
+//	public void keyPressed(KeyEvent e) {
+//			c1 = e.getKeyChar();
+//			System.out.println("你按了" + c1);
+//			
+//			if(c1 == 'a')
+//            {
+//            	bird1.flappy();
+//            }
+//            else if(c1 == 'k')
+//            {
+//            	bird2.flappy();
+//            }
+//		
+//	}
 	public class MyKeyListener extends KeyAdapter{
 		public void keyPressed(KeyEvent e) {
-			char ch = e.getKeyChar();
-			System.out.println("你按了"+ch);
-			c1 = ch;
+			c1 = e.getKeyChar();
+			System.out.println("你按了"+c1);
+			if(c1 == 'a')
+				bird1.flappy();
+			else if(c1 == 'k') {
+				bird2.flappy();
+			}
 		}
 	}
+
+	/*
+	 * addKeyListener(new KeyAdapter(){  
+	            public void keyPressed(KeyEvent e){  
+	                char charA= e.getKeyChar();  
+	                System.out.println("你按了《"+charA+"》键");
+	                
+	                }
+	            }); 
+			game.requestFocusInWindow();
+			game.action();
+	 */
 		
 	
-	//开始游戏
-	public void action()throws Exception{
-		//鼠标监听器
-		MouseListener l = new MouseAdapter() {
-			//鼠标按下事件
-			public void mousePressed(MouseEvent e) {
-				try {
-					switch(state) {
-					case START:
-					//在开始状态，按下鼠标则转为运行状态
-						state = RUNNING;
-						break;
-					case RUNNING:
-					//在运行状态。按下鼠标向上飞行
-						 
-						//bird1.flappy();
-						//bird2.flappy();
-						break;
-					case GAME_OVER:
-					//在结束状态，按下鼠标重置数据，再次转为开始状态
-						column1= new Column(1);
-						column2 = new Column(2);
-						bos = new booster();
-						bird1 = new Bird();
-						bird2 = new Bird2();
-						score1 = 0;
-						score2 = 0;
-						state = START;
-						break;
-					}
-				}catch(Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		};
-		//取消buff
-		
-		
-		//将监听器添加到当前的面板上
-		addMouseListener(l);
-		//不断的移动与重绘
-		while(true) {
-			switch(state) {
-			case START:
-				//小鸟做出飞行动作
-				bird1.fly();
-				bird2.fly();
-				//地面向左移动
-				ground.step();
-				break;
-			case RUNNING:
-				//地面向左移动一步
-				ground.step();
-				//柱子向左移动
-				column1.step();
-				column2.step();
-				//rocket remove
-				if(bos.buff) {
-				}else {
-					bos.step();
-				}
-				//小鸟飞行动作
-				bird1.fly();
-				bird2.fly();
-				//小鸟上下移动一步
-				bird1.step();
-				bird2.step();
-				//计算分数
-				if(bird1.x == column1.x || bird1.x == column2.x ) {
-					score1++;
-				}
-				if(bird2.x == column1.x || bird2.x == column2.x ) {
-					score2++;
-				}
-				//检测是否发生碰撞
-				if(bird1.hit(ground) || bird1.hit(column1)|| bird1.hit(column2)) {
-					if(bird1.buff) {
-						System.out.println("yes!");
-					}else {
-						state = GAME_OVER;
-					}
-				}
-				if(bird2.hit(ground) || bird2.hit(column1)|| bird2.hit(column2)) {
-					if(bird2.buff) {
-						System.out.println("yes!");
-					}else {
-						state = GAME_OVER;
-					}
-				}
-				//检查是否吃到BUFF
-				if(bird1.getbuff(bos)) {
-					bos.x = -56;
-					bird1.buff = true;
-					bos.buff = true;
-					new Timer().schedule(new TimerTask() {
-						@Override
-						public void run() {
-								bos.buff = false;
-								bird1.buff = false;
+	public void actioner() {
+		new Thread() {
+			public void run() {
+				MouseListener l = new MouseAdapter() {
+					//鼠标按下事件
+					public void mousePressed(MouseEvent e) {
+						try {
+							switch(state) {
+							case START:
+							//在开始状态，按下鼠标则转为运行状态
+								state = RUNNING;
+								break;
+							case RUNNING:
+							//在运行状态。按下鼠标向上飞行
+								 
+								//bird1.flappy();
+								//bird2.flappy();
+								break;
+							case GAME_OVER:
+							//在结束状态，按下鼠标重置数据，再次转为开始状态
+								column1= new Column(1);
+								column2 = new Column(2);
+								bos = new booster();
+								bird1 = new Bird();
+								bird2 = new Bird2();
+								score1 = 0;
+								score2 = 0;
+								state = START;
+								break;
+							}
+						}catch(Exception ex) {
+							ex.printStackTrace();
 						}
-					}, 10000);
-				}
-				if(bird2.getbuff(bos)) {
-					bos.x = -56;
-					bird2.buff = true;
-					bos.buff = true;
-					new Timer().schedule(new TimerTask() {
-						@Override
-						public void run() {
-								bos.buff = false;
-								bird2.buff = false;
-						}
-					}, 10000);
-				}
-				//分数达到XX，加速
-				/*if(score>=2) {
-					column1.quick();
-					column2.quick();
-				}*/
+					}
+				};
+				//取消buff
 				
-				break;
+				//将监听器添加到当前的面板上
+				addMouseListener(l);
+				//不断的移动与重绘
+					while(true) {
+						switch(state) {
+						case START:
+							//小鸟做出飞行动作
+							bird1.fly();
+							bird2.fly();
+							//地面向左移动
+							ground.step();
+							break;
+						case RUNNING:
+							//地面向左移动一步
+							ground.step();
+							//柱子向左移动
+							column1.step();
+							column2.step();
+							//rocket remove
+							if(bos.buff) {
+							}else {
+								bos.step();
+							}
+							//小鸟飞行动作
+							bird1.fly();
+							bird2.fly();
+							//小鸟上下移动一步
+							bird1.step();
+							bird2.step();
+							//计算分数
+							if(bird1.x == column1.x || bird1.x == column2.x ) {
+								score1++;
+							}
+							if(bird2.x == column1.x || bird2.x == column2.x ) {
+								score2++;
+							}
+							//检测是否发生碰撞
+							if(bird1.hit(ground) || bird1.hit(column1)|| bird1.hit(column2)) {
+								if(bird1.buff) {
+									System.out.println("yes!");
+								}else {
+									state = GAME_OVER;
+								}
+							}
+							if(bird2.hit(ground) || bird2.hit(column1)|| bird2.hit(column2)) {
+								if(bird2.buff) {
+									System.out.println("yes!");
+								}else {
+									state = GAME_OVER;
+								}
+							}
+							//检查是否吃到BUFF
+							if(bird1.getbuff(bos)) {
+								bos.x = -56;
+								bird1.buff = true;
+								bos.buff = true;
+								new Timer().schedule(new TimerTask() {
+									@Override
+									public void run() {
+											bos.buff = false;
+											bird1.buff = false;
+									}
+								}, 10000);
+							}
+							if(bird2.getbuff(bos)) {
+								bos.x = -56;
+								bird2.buff = true;
+								bos.buff = true;
+								new Timer().schedule(new TimerTask() {
+									@Override
+									public void run() {
+											bos.buff = false;
+											bird2.buff = false;
+									}
+								}, 10000);
+							}
+							//分数达到XX，加速
+							/*if(score>=2) {
+								column1.quick();
+								column2.quick();
+							}*/
+							
+							break;
+						}
+						
+						try {
+							Thread.sleep(1000/60);
+						}catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+						repaint();
+					}
+				
 			}
-			repaint();
-			Thread.sleep(1000/60);
-		}
-		
+		}.start();
+	}
+	
+	
+	//开始游戏
+	public void action() throws Exception{
+		//鼠标监听器
 		
 	}
 	
 	
 	public static void main(String[] args) throws Exception {
-		
-		
+		JFrame f = new JFrame();
+  		GameApp game = new GameApp();
+  		f.add(game);
+  		f.setSize(440,600);
+  		f.setLocationRelativeTo(null);
+  		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  		f.setVisible(true);
+  		game.addKeyListener(new KeyAdapter() {
+  			 public void keyPressed(KeyEvent e){  
+                 char charA= e.getKeyChar();  
+                 System.out.println("在Game App的主函数入口里！");
+                 if(charA == 'a')
+                 {
+                 	game.bird1.flappy();
+                 }
+                 else if(charA == 'k')
+                 {
+                 	game.bird2.flappy();
+                 }
+                 }
+  		});
+  		
+  		game.requestFocusInWindow();
+  		game.actioner();
+  		  		
 	}
 }
